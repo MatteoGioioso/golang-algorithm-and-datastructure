@@ -19,7 +19,7 @@ func sort(set []int, key int) []int {
 			currentSet[setLength-index-2] = keyNum
 		}
 
-		if setLength-index-2 == 0{
+		if setLength-index-2 == 0 {
 			break
 		}
 	}

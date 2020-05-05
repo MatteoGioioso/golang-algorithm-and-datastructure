@@ -1,8 +1,8 @@
 package main
 
 /**
-	Average performance	O(log n)
- */
+Average performance	O(log n)
+*/
 func search(sortedSet []int, numberToSearch int) bool {
 	midPointIndex := len(sortedSet) / 2
 	midPointNumber := sortedSet[midPointIndex]
