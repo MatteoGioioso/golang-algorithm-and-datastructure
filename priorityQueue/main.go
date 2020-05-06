@@ -28,7 +28,7 @@ func (b BinaryHeap) isRightChild(index int) bool {
 	return false
 }
 
-func (b BinaryHeap) bubbling(i int) {
+func (b BinaryHeap) bubblingUp(i int) {
 	var parentIndex int
 
 	if b.isRightChild(i) {
@@ -48,7 +48,7 @@ func (b BinaryHeap) bubbling(i int) {
 			return
 		}
 
-		b.bubbling(parentIndex)
+		b.bubblingUp(parentIndex)
 	}
 
 	return
@@ -56,7 +56,15 @@ func (b BinaryHeap) bubbling(i int) {
 
 func (b *BinaryHeap) Add(item int) {
 	b.Items = append(b.Items, item)
-	b.bubbling(len(b.Items) - 1)
+	b.bubblingUp(len(b.Items) - 1)
+}
+
+func (b BinaryHeap) Remove(item int)  {
+
+}
+
+func (b BinaryHeap) Poll() {
+
 }
 
 func (b BinaryHeap) ReturnHeap() []int {
