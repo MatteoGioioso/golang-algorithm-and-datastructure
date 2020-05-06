@@ -22,18 +22,45 @@ func (b *BinaryHeap) getParentIndexFromRightChild(rightChildIndex int) int {
 
 func (b BinaryHeap) isRightChild(index int) bool {
 	if index%2 == 0 {
-		return false
+		return true
 	}
 
-	return true
+	return false
+}
+
+func (b BinaryHeap) bubbling(i int) {
+	var parentIndex int
+
+	if b.isRightChild(i) {
+		parentIndex = b.getParentIndexFromRightChild(i)
+	} else {
+		parentIndex = b.getParentIndexFromLeftChild(i)
+	}
+
+	parent := b.Items[parentIndex]
+	rightChild := b.Items[i]
+
+	if rightChild < parent {
+		b.Items[parentIndex] = rightChild
+		b.Items[i] = parent
+
+		if parentIndex == 0 {
+			return
+		}
+
+		b.bubbling(parentIndex)
+	}
+
+	return
 }
 
 func (b *BinaryHeap) Add(item int) {
 	b.Items = append(b.Items, item)
+	b.bubbling(len(b.Items) - 1)
+}
 
-	for i := len(b.Items); i >= 0; i-- {
-
-	}
+func (b BinaryHeap) ReturnHeap() []int {
+	return b.Items
 }
 
 func main() {
