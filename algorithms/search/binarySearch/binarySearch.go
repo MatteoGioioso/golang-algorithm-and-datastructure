@@ -1,4 +1,4 @@
-package main
+package binarySearch
 
 /**
 Average performance	O(log n)
