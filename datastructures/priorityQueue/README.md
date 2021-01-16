@@ -17,4 +17,4 @@ An abstract data type is defined by its behavior from the point of view of a use
 ## Where Priority queues and Heap used
 - Shortest path algorithm 
 - Lossless data compression
-- Best First Search
+- Breadth First Search
