@@ -2,33 +2,33 @@ package linkedList
 
 import "fmt"
 
-type linkedList struct {
-	head *node
-	tail *node
+type LinkedList struct {
+	head *Node
+	tail *Node
 	size int
 }
 
-type node struct {
-	next  *node
-	value interface{}
+type Node struct {
+	next  *Node
+	Value interface{}
 }
 
-func New() *linkedList {
-	return &linkedList{
+func New() *LinkedList {
+	return &LinkedList{
 		head: nil,
 		tail: nil,
 		size: 0,
 	}
 }
 
-func (l linkedList) newNode(value interface{}, next *node) *node {
-	return &node{
+func (l LinkedList) newNode(value interface{}, next *Node) *Node {
+	return &Node{
 		next:  next,
-		value: value,
+		Value: value,
 	}
 }
 
-func (l *linkedList) initIfEmpty(value interface{}) {
+func (l *LinkedList) initIfEmpty(value interface{}) {
 	if l.size == 0 {
 		n := l.newNode(value, nil)
 		l.head = n
@@ -36,7 +36,7 @@ func (l *linkedList) initIfEmpty(value interface{}) {
 	}
 }
 
-func (l *linkedList) Append(value interface{}) bool {
+func (l *LinkedList) Append(value interface{}) bool {
 	l.initIfEmpty(value)
 
 	if l.size > 0 {
@@ -50,7 +50,7 @@ func (l *linkedList) Append(value interface{}) bool {
 	return true
 }
 
-func (l *linkedList) Prepend(value interface{}) bool {
+func (l *LinkedList) Prepend(value interface{}) bool {
 	l.initIfEmpty(value)
 
 	if l.size > 0 {
@@ -63,11 +63,11 @@ func (l *linkedList) Prepend(value interface{}) bool {
 	return true
 }
 
-func (l *linkedList) SetAt(position int, value interface{}) bool {
+func (l *LinkedList) SetAt(position int, value interface{}) bool {
 	panic("implement me")
 }
 
-func (l linkedList) GetAt(position int) interface{} {
+func (l LinkedList) GetAt(position int) interface{} {
 	curItem := l.head
 	pos := 1
 
@@ -77,7 +77,7 @@ func (l linkedList) GetAt(position int) interface{} {
 		}
 
 		if position+1 == pos {
-			return curItem.value
+			return curItem.Value
 		}
 
 		if position+1 > l.size {
@@ -89,21 +89,51 @@ func (l linkedList) GetAt(position int) interface{} {
 	}
 }
 
-func (l linkedList) DeleteAt(position int) bool {
-	panic("implement me")
+func (l LinkedList) Delete(node *Node) bool {
+	var currentNode *Node
+
+	if node == l.head {
+		l.head = l.head.next
+		node.next = nil
+		return true
+	}
+
+	for {
+		currentNode = l.Next(currentNode)
+		if currentNode.next == node {
+			currentNode.next = currentNode.next.next
+			// If the supplied node is the tail
+			if node.next == nil {
+				l.tail = currentNode
+			}
+
+			node.next = nil
+
+			return true
+		}
+	}
 }
 
-func (l linkedList) Size() int {
+func (l LinkedList) Size() int {
 	return l.size
 }
 
-func (l linkedList) Print() {
+func (l LinkedList) Print() {
 	curItem := l.head
 	for {
-		fmt.Println(curItem.value)
+		fmt.Println(curItem.Value)
 		if curItem.next == nil {
 			break
 		}
 		curItem = curItem.next
 	}
+}
+
+func (l LinkedList) Next(node *Node) *Node {
+	// If initial node is nil return the first node
+	if node == nil {
+		return l.head
+	}
+
+	return node.next
 }

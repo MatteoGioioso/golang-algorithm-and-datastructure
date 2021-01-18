@@ -1,10 +1,10 @@
 package linkedList
 
-type LinkedList interface {
+type LinkedLister interface {
 	Append(value interface{}) bool
 	Prepend(value interface{}) bool
 	SetAt(position int, value interface{}) bool
-	DeleteAt(position int) bool
+	Delete(node *Node) bool
 	GetAt(position int) interface{}
 	Size() int
 }

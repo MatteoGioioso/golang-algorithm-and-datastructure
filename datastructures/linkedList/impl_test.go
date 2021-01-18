@@ -65,8 +65,8 @@ func Test_linkedList_GetAt(t *testing.T) {
 		args  args
 		want string
 	}{
-		{name: "should find the right value", args: args{position: 1}, want: "two"},
-		{name: "should find the right value", args: args{position: 0}, want: "one"},
+		{name: "should find the right Value", args: args{position: 1}, want: "two"},
+		{name: "should find the right Value", args: args{position: 0}, want: "one"},
 		{name: "should find nothing", args: args{position: 4}, want: ""},
 	}
 	for _, tt := range tests {

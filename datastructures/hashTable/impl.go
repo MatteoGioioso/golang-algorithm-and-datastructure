@@ -1,29 +1,30 @@
 package hashTable
 
 import (
+	"algo/datastructures/linkedList"
 	"hash/fnv"
 )
 
 type hashTable struct {
-	array       [8][3]interface{}
+	array       [8]*linkedList.LinkedList
 	currentSize int
 	capacity int
 }
+
+// This will contain the key and the value
+type obj [2]interface{}
 
 func (h hashTable) Size() int {
 	return h.currentSize
 }
 
 func New() *hashTable {
+	const initialSize = 8
 	return &hashTable{
-		[8][3]interface{}{},
-		0,
-		8,
+		array: [initialSize]*linkedList.LinkedList{},
+		capacity: 0,
+		currentSize: initialSize,
 	}
-}
-
-func (h hashTable) Array() [8][3]interface{} {
-	return h.array
 }
 
 func (h *hashTable) Set(key string, value interface{}) bool {
@@ -38,28 +39,22 @@ func (h *hashTable) Set(key string, value interface{}) bool {
 		return false
 	}
 
-	// Check if there is a collision
-	if h.array[index][0] != nil {
-		// TODO implement with linked list
-		return false
-	}
-
-	obj := [3]interface{}{
-		key,
-		value,
-		nil, // pointer to the next node
-	}
-
-	h.array[index] = obj
+	data := obj{key, value}
+	h.array[index].Append(data)
 	h.currentSize++
 	return true
 }
 
 func (h hashTable) Get(key string) interface{} {
 	index, _ := h.getIndex(key)
-	obj := h.array[index]
 
-	return obj[1]
+	node := h.searchInLinkedList(key, index)
+	if node == nil {
+		return nil
+	}
+
+	o := node.Value.(obj)
+	return o[1]
 }
 
 func (h *hashTable) Delete(key string) bool {
@@ -68,9 +63,32 @@ func (h *hashTable) Delete(key string) bool {
 		return false
 	}
 
-	h.array[index] = [3]interface{}{}
+	node := h.searchInLinkedList(key, index)
+
+	if node == nil {
+		return true
+	}
+
+	h.array[index].Delete(node)
 	h.capacity--
 	return true
+}
+
+func (h hashTable) searchInLinkedList(key string, index int) *linkedList.Node {
+	var currentNode *linkedList.Node
+	for {
+		currentNode = h.array[index].Next(currentNode)
+
+		if currentNode == nil {
+			return nil
+		}
+
+		o := currentNode.Value.(obj)
+
+		if o[0] == key {
+			return currentNode
+		}
+	}
 }
 
 func (h hashTable) getIndex(s string) (int, error) {
