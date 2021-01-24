@@ -89,7 +89,7 @@ func (l LinkedList) GetAt(position int) interface{} {
 	}
 }
 
-func (l LinkedList) Delete(node *Node) bool {
+func (l *LinkedList) Delete(node *Node) bool {
 	var currentNode *Node
 
 	if node == l.head {

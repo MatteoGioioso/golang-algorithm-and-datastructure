@@ -8,7 +8,7 @@ import (
 type hashTable struct {
 	array       [8]*linkedList.LinkedList
 	currentSize int
-	capacity int
+	capacity    int
 }
 
 // This will contain the key and the value
@@ -22,8 +22,8 @@ func New() *hashTable {
 	const initialSize = 8
 	return &hashTable{
 		array: [initialSize]*linkedList.LinkedList{},
-		capacity: 0,
-		currentSize: initialSize,
+		capacity:    initialSize,
+		currentSize: 0,
 	}
 }
 
@@ -37,6 +37,11 @@ func (h *hashTable) Set(key string, value interface{}) bool {
 	if index > h.capacity {
 		// TODO implement array resize
 		return false
+	}
+
+	if h.array[index] == nil {
+		ll := linkedList.New()
+		h.array[index] = ll
 	}
 
 	data := obj{key, value}
@@ -70,7 +75,7 @@ func (h *hashTable) Delete(key string) bool {
 	}
 
 	h.array[index].Delete(node)
-	h.capacity--
+	h.currentSize--
 	return true
 }
 
