@@ -121,7 +121,7 @@ func (l LinkedList) Size() int {
 func (l LinkedList) Print() {
 	curItem := l.head
 	for {
-		fmt.Println(curItem.Value)
+		fmt.Println("Val: ", curItem.Value)
 		if curItem.next == nil {
 			break
 		}

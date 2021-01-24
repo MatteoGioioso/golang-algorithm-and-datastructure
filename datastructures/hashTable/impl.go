@@ -2,11 +2,12 @@ package hashTable
 
 import (
 	"algo/datastructures/linkedList"
+	"fmt"
 	"hash/fnv"
 )
 
 type hashTable struct {
-	array       [8]*linkedList.LinkedList
+	array       []*linkedList.LinkedList
 	currentSize int
 	capacity    int
 }
@@ -19,23 +20,68 @@ func (h hashTable) Size() int {
 }
 
 func New() *hashTable {
-	const initialSize = 8
 	return &hashTable{
-		array: [initialSize]*linkedList.LinkedList{},
-		capacity:    initialSize,
+		array:       make([]*linkedList.LinkedList, 8),
+		capacity:    8,
 		currentSize: 0,
 	}
 }
 
-func (h *hashTable) Set(key string, value interface{}) bool {
-	index, err := h.getIndex(key)
-	if err != nil {
-		return false
+func (h hashTable) hasExceededLoadFactor() bool {
+	lambda := float32(h.currentSize) / float32(h.capacity)
+	if lambda >= 0.75 {
+		return true
 	}
 
-	// Check if index is out of bound
-	if index > h.capacity {
-		// TODO implement array resize
+	return false
+}
+
+func (h hashTable) iterateLL(newArray []*linkedList.LinkedList, list *linkedList.LinkedList) {
+	var currentNode *linkedList.Node
+	for {
+		currentNode = list.Next(currentNode)
+		if currentNode != nil {
+			val := currentNode.Value.(obj)
+			key := val[0].(string)
+			index, _ := h.getIndex(key)
+			if key == "item3" {
+				fmt.Println(currentNode)
+				fmt.Println(list.Next(currentNode), index, h.capacity)
+			}
+			if newArray[index] == nil {
+				ll := linkedList.New()
+				newArray[index] = ll
+			}
+
+			newArray[index].Append(currentNode.Value)
+			continue
+		}
+
+		break
+	}
+}
+
+func (h *hashTable) rehashing() {
+	h.capacity = h.capacity * 2
+
+	newArray := make([]*linkedList.LinkedList, h.capacity)
+	for _, list := range h.array {
+		if list != nil {
+			h.iterateLL(newArray, list)
+		}
+	}
+
+	h.array = newArray
+}
+
+func (h *hashTable) Set(key string, value interface{}) bool {
+	//Check if rehashing is needed
+	if h.hasExceededLoadFactor() {
+		h.rehashing()
+	}
+
+	index, err := h.getIndex(key)
+	if err != nil {
 		return false
 	}
 

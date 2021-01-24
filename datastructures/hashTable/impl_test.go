@@ -42,13 +42,14 @@ func Test_hashTable_Delete(t *testing.T) {
 
 	type args struct {
 		key string
+		finalSize int
 	}
 	tests := []struct {
 		name string
 		args args
 	}{
-		{name: "should delete an item that exists", args: args{key: "itemTwo"}},
-		{name: "should delete an item that does not exists", args: args{key: "itemFour"}},
+		{name: "should delete an item that exists", args: args{key: "itemTwo", finalSize: 2}},
+		{name: "should delete an item that does not exists", args: args{key: "itemFour", finalSize: 3}},
 	}
 
 	for _, tt := range tests {
@@ -64,14 +65,14 @@ func Test_hashTable_Delete(t *testing.T) {
 			b := h.Delete(tt.args.key)
 
 			g.Expect(b).Should(gomega.Equal(true))
-			g.Expect(h.Size()).Should(gomega.Equal(2))
+			g.Expect(h.Size()).Should(gomega.Equal(tt.args.finalSize))
 
 			g.Expect(h.Get(tt.args.key)).Should(gomega.BeNil())
 		})
 	}
 }
 
-func Test_hashTable_Load(t *testing.T) {
+func Test_hashTable_Rehashing(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 
 	type args struct {
@@ -83,7 +84,7 @@ func Test_hashTable_Load(t *testing.T) {
 		args args
 	}{
 		{
-			name: "should load the hash table with many elements and still operate normally",
+			name: "should load the hash table with many elements to trigger rehashing",
 			args: args{key: "item19", fillSize: 20},
 		},
 	}
@@ -93,7 +94,8 @@ func Test_hashTable_Load(t *testing.T) {
 			h := hashTable.New()
 
 			for i := 0; i < tt.args.fillSize; i++ {
-				h.Set(fmt.Sprintf("item%d", i), fmt.Sprintf("my item %v", i))
+				b := h.Set(fmt.Sprintf("item%d", i), fmt.Sprintf("my item %v", i))
+				g.Expect(b).Should(gomega.Equal(true))
 			}
 
 			g.Expect(h.Size()).Should(gomega.Equal(tt.args.fillSize))

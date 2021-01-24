@@ -26,9 +26,9 @@ allowed to get before its capacity is automatically increased
 As a general rule, the default load factor (.75) offers a good 
 tradeoff between time and space costs.
 
-If `lambda`:
+If `result`:
 ```
-lambda = initial_capacity * load_factor
+result = initial_capacity * load_factor
 ```
 
 will be reached then the capacity (array size) 

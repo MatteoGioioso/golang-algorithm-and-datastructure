@@ -88,3 +88,27 @@ func Test_linkedList_GetAt(t *testing.T) {
 		})
 	}
 }
+
+func TestLinkedList_Delete(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
+
+	tests := []struct {
+		name   string
+		args   []string
+	}{
+		{name: "should append three values", args: []string{"one", "two", "three"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := linkedList.New()
+
+			for _, arg := range tt.args {
+				l.Append(arg)
+			}
+
+			g.Expect(l.Size()).Should(gomega.Equal(len(tt.args)))
+
+			l.Print()
+		})
+	}
+}

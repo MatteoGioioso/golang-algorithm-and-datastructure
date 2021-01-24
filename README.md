@@ -19,6 +19,12 @@
 - **Exponential complexities (compare all with all)**: Next let's take a look at exponential algorithms. This is basically what you studied in permutations and combinations during math class in school/college. Let's consider the recursive implementation of n queens problem. You have 8 rows to place the queens and the queen can be placed in one of 8 columns. So for the first column you have 8 possibilities, for the second column you have 8 possibilities and so on. Complexity is nn Let us consider the problem where we are asked to find all the permutations of the string with unique characters. Let's assume the string has 5 characters - there are 5 positions we are trying to fill. So in the first position you have 5 possibilities, for the second position you have 4 possibilities (since you placed one character in the first position), for the third position you have 3 possibilities (since 2 characters have been placed in positions 1, 2) and so on. The complexity = n*n-1*n-2...*1 and this is O(n!). Next suppose you are asked to find the number of possible values in a byte - one byte = 8 bits. You have 8 positions that can take 2 values (0 or 1). For position 1 you have 2 values, for position 2 you have 2 values and so on. The value of this is 28 hence the complexity of such problems is O(2n ).
 
 
+### Notation
+
+- **Big O**: same or faster
+- **Big Theta**: same rate
+- **Big Omega**: same or slower
+
 ---
 
 ## Resources:
