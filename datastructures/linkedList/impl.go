@@ -63,10 +63,6 @@ func (l *LinkedList) Prepend(value interface{}) bool {
 	return true
 }
 
-func (l *LinkedList) SetAt(position int, value interface{}) bool {
-	panic("implement me")
-}
-
 func (l LinkedList) GetAt(position int) interface{} {
 	curItem := l.head
 	pos := 1
@@ -114,6 +110,20 @@ func (l *LinkedList) Delete(node *Node) bool {
 	}
 }
 
+func (l *LinkedList) DeleteTail() bool {
+	var secondLastNode *Node
+
+	for {
+		secondLastNode = l.Next(secondLastNode)
+		if secondLastNode.next == l.tail {
+			secondLastNode.next = nil
+			l.tail = secondLastNode
+			l.size--
+			return true
+		}
+	}
+}
+
 func (l LinkedList) Size() int {
 	return l.size
 }
@@ -136,4 +146,12 @@ func (l LinkedList) Next(node *Node) *Node {
 	}
 
 	return node.next
+}
+
+func (l LinkedList) Tail() interface{} {
+	return l.tail.Value
+}
+
+func (l LinkedList) Head() interface{} {
+	return l.head.Value
 }

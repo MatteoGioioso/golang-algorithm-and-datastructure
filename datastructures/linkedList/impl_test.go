@@ -112,3 +112,41 @@ func TestLinkedList_Delete(t *testing.T) {
 		})
 	}
 }
+
+func TestLinkedList_DeleteTail(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
+	type want struct {
+		size int
+		res bool
+		lastElemVal string
+	}
+	tests := []struct {
+		name   string
+		want   want
+	}{
+		{name: "should pop last item from linked list", want: want{
+			size:        3,
+			res:         true,
+			lastElemVal: "three",
+		}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := linkedList.New()
+
+			for _, v := range []string{"one", "two", "three", "four"} {
+				l.Append(v)
+			}
+
+			g.Expect(l.Size()).Should(gomega.Equal(4))
+
+			res := l.DeleteTail()
+			g.Expect(res).Should(gomega.Equal(tt.want.res))
+			g.Expect(l.Size()).Should(gomega.Equal(tt.want.size))
+
+			tail := l.Tail().(string)
+			g.Expect(tail).Should(gomega.Equal(tt.want.lastElemVal))
+			l.Print()
+		})
+	}
+}

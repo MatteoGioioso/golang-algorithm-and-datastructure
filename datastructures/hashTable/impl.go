@@ -2,7 +2,6 @@ package hashTable
 
 import (
 	"algo/datastructures/linkedList"
-	"fmt"
 	"hash/fnv"
 )
 
@@ -44,10 +43,6 @@ func (h hashTable) iterateLL(newArray []*linkedList.LinkedList, list *linkedList
 			val := currentNode.Value.(obj)
 			key := val[0].(string)
 			index, _ := h.getIndex(key)
-			if key == "item3" {
-				fmt.Println(currentNode)
-				fmt.Println(list.Next(currentNode), index, h.capacity)
-			}
 			if newArray[index] == nil {
 				ll := linkedList.New()
 				newArray[index] = ll
