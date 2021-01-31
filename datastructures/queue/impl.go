@@ -3,6 +3,7 @@ package queue
 import (
 	"algo/datastructures/linkedList"
 	"errors"
+	"fmt"
 )
 
 type queue struct {
@@ -38,6 +39,19 @@ func (q queue) Peeking() interface{}  {
 
 func (q queue) Size() int {
 	return q.list.Size()
+}
+
+func (q queue) Print() {
+	var currentNode *linkedList.Node
+	for {
+		currentNode = q.list.Next(currentNode)
+		//fmt.Println(currentNode)
+		if currentNode == nil {
+			break
+		}
+
+		fmt.Print(currentNode.Value, ", ")
+	}
 }
 
 

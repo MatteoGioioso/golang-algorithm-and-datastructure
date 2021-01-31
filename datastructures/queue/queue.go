@@ -5,4 +5,5 @@ type Queuer interface {
 	Dequeuing() (interface{}, error)
 	Peeking() interface{}
 	Size() int
+	Print()
 }
