@@ -124,6 +124,17 @@ func (l *LinkedList) DeleteTail() bool {
 	}
 }
 
+func (l *LinkedList) DeleteHead() bool {
+	oldHead := l.head
+
+	l.head = l.head.next
+	oldHead.next = nil
+	l.size--
+
+	return true
+}
+
+
 func (l LinkedList) Size() int {
 	return l.size
 }

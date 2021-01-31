@@ -7,6 +7,7 @@ type LinkedLister interface {
 	GetAt(position int) interface{}
 	Size() int
 	DeleteTail() bool
+	DeleteHead() bool
 	Tail() interface{}
 	Head() interface{}
 }

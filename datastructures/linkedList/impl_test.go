@@ -139,13 +139,51 @@ func TestLinkedList_DeleteTail(t *testing.T) {
 			}
 
 			g.Expect(l.Size()).Should(gomega.Equal(4))
+			g.Expect(l.Tail()).Should(gomega.Equal("four"))
 
 			res := l.DeleteTail()
 			g.Expect(res).Should(gomega.Equal(tt.want.res))
 			g.Expect(l.Size()).Should(gomega.Equal(tt.want.size))
+			g.Expect(l.Tail()).Should(gomega.Equal(tt.want.lastElemVal))
+			l.Print()
+		})
+	}
+}
 
-			tail := l.Tail().(string)
-			g.Expect(tail).Should(gomega.Equal(tt.want.lastElemVal))
+
+func TestLinkedList_DeleteHead(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
+	type want struct {
+		size int
+		res bool
+		firstElem string
+	}
+	tests := []struct {
+		name   string
+		want   want
+	}{
+		{name: "should pop last item from linked list", want: want{
+			size:        3,
+			res:         true,
+			firstElem: "two",
+		}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := linkedList.New()
+
+			for _, v := range []string{"one", "two", "three", "four"} {
+				l.Append(v)
+			}
+
+			g.Expect(l.Size()).Should(gomega.Equal(4))
+			g.Expect(l.Head()).Should(gomega.Equal("one"))
+
+			res := l.DeleteHead()
+			g.Expect(res).Should(gomega.Equal(tt.want.res))
+			g.Expect(l.Size()).Should(gomega.Equal(tt.want.size))
+
+			g.Expect(l.Head()).Should(gomega.Equal(tt.want.firstElem))
 			l.Print()
 		})
 	}
