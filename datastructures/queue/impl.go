@@ -45,7 +45,6 @@ func (q queue) Print() {
 	var currentNode *linkedList.Node
 	for {
 		currentNode = q.list.Next(currentNode)
-		//fmt.Println(currentNode)
 		if currentNode == nil {
 			break
 		}

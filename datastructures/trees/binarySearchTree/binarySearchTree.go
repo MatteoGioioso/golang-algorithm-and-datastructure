@@ -1,7 +1,7 @@
 package binarySearchTree
 
 type BinarySearchTree interface {
-	Insert(value interface{})
-	Remove(value interface{})
-	Search(value interface{})
+	Insert(value int)
+	Remove(value int) error
+	Search(value int) (int, error)
 }

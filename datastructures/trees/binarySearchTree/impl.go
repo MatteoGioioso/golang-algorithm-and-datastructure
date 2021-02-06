@@ -62,19 +62,57 @@ func (t *tree) insertRcv(value int, n *node) {
 	}
 }
 
-func (t tree) Remove(value interface{}) {
-	panic("implement me")
+func (t tree) comparator(input, current int) bool {
+	if input - current == 0 {
+		return true
+	}
+
+	return false
 }
 
-func (t tree) Search(value interface{}) {
-	panic("implement me")
+func (t tree) Search(value int) (int, error) {
+	node := t.search(value, t.rootNode)
+	if node == nil {
+		return 0, fmt.Errorf("not found")
+	}
+
+	return node.value, nil
+}
+
+func (t tree) search(value int, n *node) *node {
+	var currNode = n
+	for {
+		if t.comparator(currNode.value, value) {
+			return currNode
+		}
+
+		if value > currNode.value {
+			if currNode.left == nil {
+				break
+			}
+			currNode = currNode.left
+			continue
+		}
+
+		if value < currNode.value {
+			if currNode.right == nil {
+				break
+			}
+			currNode = currNode.right
+			continue
+		}
+	}
+
+	return nil
 }
 
 func (t tree) Size() int {
 	return t.size
 }
 
-func (t tree) LevelOrderTraversal() {
+// Breadth First Search
+func (t tree) LevelOrderTraversal() []int {
+	var arr []int
 	q := queue.New()
 	q.Enqueuing(t.rootNode)
 	currentNode := t.rootNode
@@ -83,7 +121,7 @@ func (t tree) LevelOrderTraversal() {
 		rawNode, _ := q.Dequeuing()
 		n := rawNode.(*node)
 		currentNode = n
-		fmt.Print(n.value, ", ")
+		arr = append(arr, n.value)
 		if currentNode.right != nil {
 			q.Enqueuing(currentNode.right)
 		}
@@ -92,18 +130,14 @@ func (t tree) LevelOrderTraversal() {
 			q.Enqueuing(currentNode.left)
 		}
 	}
+
+	return arr
 }
 
-func (t tree) walk(n *node, q queue.Queuer)  {
+func (t tree) TreeTraversal() {
+	panic("not implemented")
+}
 
-	if n.left != nil {
-		q.Enqueuing(n.left.value)
-		t.walk(n.left, q)
-	}
-
-	_, _ = q.Dequeuing()
-	q.Print()
-	fmt.Println()
-
-	//fmt.Print(dequeuing, ", ")
+func (t tree) Remove(value int) error {
+	panic("implement me")
 }

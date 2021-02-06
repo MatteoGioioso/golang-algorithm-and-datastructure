@@ -25,8 +25,44 @@
 - **Big Theta**: same rate
 - **Big Omega**: same or slower
 
+
+# Contiguous and non-contiguous data structures
+
+### Contiguous
+In contiguous structures, terms of data are kept together in memory (either RAM or in a file).
+An **array&& is an example of a contiguous structure.
+
+Contiguous structures can be broken drawn further into two kinds:
+
+- those that **contain data items of all the same size** (array), in an array, each element is of the same type.
+- structures: in a struct, elements may be of different data types and thus may have different sizes.
+
+### Non-contiguous
+Non-contiguous structures are implemented as a collection of data-items, called nodes,
+where each node can point to one or more other nodes in the collection. The simplest kind of
+non-contiguous structure is **linked list**.
+Tree and Graphs are non-contiguous as well.
+
+### Hybrid
+If two basic types of structures are mixed then it is a hybrid form. Then one part
+contiguous and another part non-contiguous.
+
+# Abstract Data Type (ADT)
+An abstract data type is defined by its behavior from the point of view of a user, of the data, 
+specifically in terms of possible values, possible operations on data of this type, and the behavior of these operations.
+
+The design of a data structure involves more than just its organization. You also need to
+plan for the way the data will be accessed and processed.
+**Non-contiguous structures can be implemented either contiguously or non-contiguously like wise, 
+the structures that are normally treated as contiguously can also be implemented non-contiguously**.
+
+**The abstract notion of a data structure is defined in terms of the operations we plan to perform on the data**.
+An abstract data type in a theoretical construct that consists of data as well as the operations to be performed on
+the data while hiding implementation.
+
 ---
 
 ## Resources:
 
 - https://www.youtube.com/watch?v=RBSGKlAvoiM
+- http://www.jbiet.edu.in/coursefiles/cse/HO/cse1/DS1.pdf
