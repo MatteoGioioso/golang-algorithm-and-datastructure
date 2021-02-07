@@ -41,7 +41,7 @@ func (t *tree) Insert(value int) {
 }
 
 func (t *tree) insertRcv(value int, n *node) {
-	if n.value > value {
+	if value > n.value {
 		if n.right == nil {
 			n.right = t.newNode(value)
 			t.size++
@@ -51,7 +51,7 @@ func (t *tree) insertRcv(value int, n *node) {
 		}
 	}
 
-	if n.value < value {
+	if value < n.value  {
 		if n.left == nil {
 			n.left = t.newNode(value)
 			t.size++
@@ -63,7 +63,7 @@ func (t *tree) insertRcv(value int, n *node) {
 }
 
 func (t tree) comparator(input, current int) bool {
-	if input - current == 0 {
+	if input-current == 0 {
 		return true
 	}
 
@@ -87,18 +87,18 @@ func (t tree) search(value int, n *node) *node {
 		}
 
 		if value > currNode.value {
-			if currNode.left == nil {
-				break
-			}
-			currNode = currNode.left
-			continue
-		}
-
-		if value < currNode.value {
 			if currNode.right == nil {
 				break
 			}
 			currNode = currNode.right
+			continue
+		}
+
+		if value < currNode.value {
+			if currNode.left == nil {
+				break
+			}
+			currNode = currNode.left
 			continue
 		}
 	}
@@ -122,13 +122,14 @@ func (t tree) LevelOrderTraversal() []int {
 		n := rawNode.(*node)
 		currentNode = n
 		arr = append(arr, n.value)
+		if currentNode.left != nil {
+			q.Enqueuing(currentNode.left)
+		}
+
 		if currentNode.right != nil {
 			q.Enqueuing(currentNode.right)
 		}
 
-		if currentNode.left != nil {
-			q.Enqueuing(currentNode.left)
-		}
 	}
 
 	return arr
@@ -138,6 +139,118 @@ func (t tree) TreeTraversal() {
 	panic("not implemented")
 }
 
-func (t tree) Remove(value int) error {
-	panic("implement me")
+func (t *tree) Remove(value int) error {
+	t.remove(value, t.rootNode)
+	t.size--
+
+	return nil
+}
+
+func (t *tree) remove(value int, currentNode *node) {
+	var currNode = currentNode
+	var parentNode = t.rootNode
+	for {
+		fmt.Println(value, currNode.value)
+		if value == currNode.value {
+			if t.isLeaf(currNode) {
+				t.unlinkChildNode(parentNode, value)
+				break
+			}
+
+			if t.hasLeftSubTreeOnly(currNode) {
+				parentNode.left = currNode.left
+				currNode.left = nil
+				break
+			}
+
+			if t.hasRightSubTreeOnly(currNode) {
+				parentNode.right = currNode.right
+				currNode.right = nil
+				break
+			}
+
+			if t.hasBothSubTrees(currNode) {
+				smallestNode := t.findSmallestNodeInTheRightSubTree(currNode)
+				currNode.value = smallestNode.value
+
+				// Little hack to make the iteration continue and set
+				// the new value to remove as the smallest node in the right sub tree
+				value = smallestNode.value
+				currNode = currNode.right
+			}
+		}
+
+		if value > currNode.value {
+			if currNode.right == nil {
+				break
+			}
+
+			parentNode = currNode
+			currNode = currNode.right
+			continue
+		}
+
+		if value < currNode.value {
+			if currNode.left == nil {
+				break
+			}
+
+			parentNode = currNode
+			currNode = currNode.left
+			continue
+		}
+	}
+}
+
+func (t *tree) unlinkChildNode(parentNode *node, value int)  {
+	if parentNode.left != nil && value == parentNode.left.value {
+		parentNode.left = nil
+	}
+
+	if parentNode.right != nil && value == parentNode.right.value {
+		parentNode.right = nil
+	}
+}
+
+func (t tree) findSmallestNodeInTheRightSubTree(currentNode *node) *node {
+	leftSubTree := currentNode.right
+	smallestNode := leftSubTree
+
+	for {
+		if smallestNode.left == nil {
+			break
+		}
+
+		smallestNode = leftSubTree.left
+	}
+
+	return smallestNode
+}
+
+func (t tree) isLeaf(n *node) bool {
+	return n.left == nil && n.right == nil
+}
+
+func (t tree) hasLeftSubTreeOnly(n *node) bool {
+	if n.left != nil && n.right == nil {
+		return true
+	}
+
+	return false
+}
+
+func (t tree) hasRightSubTreeOnly(n *node) bool {
+	if n.right != nil && n.left == nil {
+		return true
+	}
+
+	return false
+}
+
+func (t tree) hasBothSubTrees(n *node) bool {
+	if n.right != nil && n.left != nil {
+		return true
+	}
+
+	return false
 }
