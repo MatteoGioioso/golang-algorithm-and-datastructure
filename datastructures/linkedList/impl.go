@@ -115,6 +115,13 @@ func (l *LinkedList) DeleteTail() bool {
 
 	for {
 		secondLastNode = l.Next(secondLastNode)
+		if secondLastNode.next == nil {
+			l.tail = nil
+			l.head = nil
+			l.size--
+			return true
+		}
+
 		if secondLastNode.next == l.tail {
 			secondLastNode.next = nil
 			l.tail = secondLastNode

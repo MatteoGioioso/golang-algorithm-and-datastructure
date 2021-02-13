@@ -2,6 +2,7 @@ package binarySearchTree
 
 import (
 	"algo/datastructures/queue"
+	"algo/datastructures/stack"
 	"fmt"
 )
 
@@ -129,14 +130,33 @@ func (t tree) LevelOrderTraversal() []int {
 		if currentNode.right != nil {
 			q.Enqueuing(currentNode.right)
 		}
-
 	}
 
 	return arr
 }
 
-func (t tree) TreeTraversal() {
-	panic("not implemented")
+func (t tree) TreeTraversal() []int {
+	var arr []int
+	s := stack.New()
+	s.Push(t.rootNode)
+
+	var currentNode *node
+
+	for s.Size() > 0 {
+		rawNode, _ := s.Pop()
+		currentNode = rawNode.(*node)
+		arr = append(arr, currentNode.value)
+
+		if currentNode.right != nil {
+			s.Push(currentNode.right)
+		}
+
+		if currentNode.left != nil {
+			s.Push(currentNode.left)
+		}
+	}
+
+	return arr
 }
 
 func (t *tree) Remove(value int) error {

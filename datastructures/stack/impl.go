@@ -27,7 +27,7 @@ func (s *stack) Push(value interface{}) error {
 func (s *stack) Pop() (interface{}, error) {
 	// We pre cache the head because it will delete after
 	cachedHead := s.list.Head()
-	ok := s.list.DeleteTail()
+	ok := s.list.DeleteHead()
 	if !ok {
 		return nil, errors.New("unable to Pop")
 	}
