@@ -170,7 +170,6 @@ func (t *tree) remove(value int, currentNode *node) {
 	var currNode = currentNode
 	var parentNode = t.rootNode
 	for {
-		fmt.Println(value, currNode.value)
 		if value == currNode.value {
 			if t.isLeaf(currNode) {
 				t.unlinkChildNode(parentNode, value)
