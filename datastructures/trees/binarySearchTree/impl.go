@@ -159,6 +159,31 @@ func (t tree) TreeTraversal() []int {
 	return arr
 }
 
+// TreeTraversalRecv recursive version of the tree traversal pre order
+// It is much simpler as it does not use any implementation of a stack,
+// the recursion act as a stack
+func (t tree) TreeTraversalRecv() []int {
+	arr := make([]int, 0)
+	t.traverse(t.rootNode, &arr)
+	return arr
+}
+
+func (t tree) traverse(n *node, arr *[]int) {
+	*arr = append(*arr, n.value)
+
+	if n.left == nil && n.right == nil {
+		return
+	}
+
+	if n.left != nil {
+		t.traverse(n.left, arr)
+	}
+
+	if n.right != nil {
+		t.traverse(n.right, arr)
+	}
+}
+
 func (t *tree) Remove(value int) error {
 	t.remove(value, t.rootNode)
 	t.size--

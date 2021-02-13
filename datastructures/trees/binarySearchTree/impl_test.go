@@ -125,6 +125,47 @@ func Test_stack_TreeTraversal(t *testing.T) {
 	}
 }
 
+func Test_stack_TreeTraversalRecv(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
+	type args struct {
+		values []int
+	}
+	type want struct {
+		size               int
+		treeTraversalArray []int
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    want
+		wantErr bool
+	}{
+		{
+			name: "should push items into the stack",
+			args: args{values: []int{7, 20, 5, 15, 10, 4, 33, 2, 25, 6}},
+			want: want{
+				size:               10,
+				treeTraversalArray: []int{7, 5, 4, 2, 6, 20, 15, 10, 33, 25},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := binarySearchTree.New()
+
+			for _, value := range tt.args.values {
+				s.Insert(value)
+			}
+
+			g.Expect(s.Size()).Should(gomega.Equal(tt.want.size))
+			g.Expect(s.TreeTraversalRecv()).Should(gomega.Equal(tt.want.treeTraversalArray))
+		})
+	}
+}
+
+
 func Test_stack_Search(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 	type args struct {
