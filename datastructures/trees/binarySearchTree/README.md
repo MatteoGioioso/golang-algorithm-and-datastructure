@@ -16,3 +16,4 @@ Worst case is when the tree is not balanced, and it ends up being almost like a 
 - Delete `O(log(n))`: find and remove
 - Remove `O(log(n))`: find and replace
 - Search `O(log(n))`
+
